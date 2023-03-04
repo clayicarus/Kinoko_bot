@@ -12,11 +12,11 @@ set(UNOFFICIAL_LINK_LIST
 add_executable(atri main.cpp
         OpenAI_API/OpenAI_API.cpp OpenAI_API/OpenAI_API.h
         dependency.h
-        TestChat.cpp TestChat.h)
+        TestChat.cpp TestChat.h ChatBot/ChatBot.cpp ChatBot/ChatBot.h ChatBot/ChatCache.cpp ChatBot/ChatCache.h ChatBot/CompletionParameter.cpp ChatBot/CompletionParameter.h)
 target_link_libraries(atri PRIVATE ${UNOFFICIAL_LINK_LIST})
 
 add_executable(test test.cpp
         OpenAI_API/OpenAI_API.cpp OpenAI_API/OpenAI_API.h
         dependency.h
-        TestChat.cpp TestChat.h)
+        TestChat.cpp TestChat.h ChatBot/ChatBot.cpp ChatBot/ChatBot.h ChatBot/ChatCache.cpp ChatBot/ChatCache.h ChatBot/CompletionParameter.cpp ChatBot/CompletionParameter.h)
 target_link_libraries(test PRIVATE ${UNOFFICIAL_LINK_LIST})
