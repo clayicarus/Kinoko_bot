@@ -7,23 +7,30 @@
 
 #include <string>
 #include <vector>
+#include <set>
 #include "ChatCache.h"
 #include "CompletionParameter.h"
+#include "ChatMemory.h"
 
 class CompletionParameter;
 class ChatCache;
 
 class ChatBot {
 public:
-    std::string speakAndResponse();
+    ChatBot();
+    void speak(const std::string &name, const std::string &content);
+    std::string&& getOneReply(const std::string &name);
 
 private:
     ChatCache cache;
-    CompletionParameter parameter;
-    std::string scene;
-    std::vector<std::string> role;
-    std::string botName;
+    ChatMemory memory;
 
+    const std::string botName;
+    std::string scene;
+    std::set<std::string> currentSpeaker;
+
+    CompletionParameter parameter;
+    std::string debugResponse;
 };
 
 #endif //ATRI_CHATBOT_H
