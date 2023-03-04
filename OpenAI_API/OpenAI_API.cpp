@@ -10,10 +10,12 @@ using namespace cpr;
 OpenAI_API::API_Response OpenAI_API::dumpResponse(const cpr::Response &r)
 {
     API_Response res;
-    res["status_code"] = r.status_code;
     if(r.error.code == cpr::ErrorCode::OK) {
+        res["is_error"] = false;
+        res["status_code"] = r.status_code;
         res["response_data"] = nlohmann::json::parse(r.text);
     } else {
+        res["is_error"] = true;
         res["error_message"] = r.error.message;
     }
     return res;
