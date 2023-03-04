@@ -17,18 +17,19 @@ public:
     const std::string& getPrompt();
     void insert(const Speaker &speaker, const Content &content);
 
-    const Content::size_type &maxPromptSize() const { return maxPromptSize_; }
+    [[nodiscard]] const Content::size_type &maxPromptSize() const { return maxPromptSize_; }
     Content::size_type &maxPromptSize() { return maxPromptSize_; }
 
-    Content::size_type currentPromptSize() const { return prompt_.size(); }
+    [[nodiscard]] const Content::size_type &currentCacheSize() const { return currCacheSize_; }
 private:
-    Content::size_type maxPromptSize_;
+    Content::size_type currCacheSize_;
     Cache cache_;
+
+    Content::size_type maxPromptSize_;
     Content prompt_;
 
-    bool& changed() { return changed_; }
-    const bool& changed() const { return changed_; }
-    bool changed_;
+    [[nodiscard]] const bool& promptChanged() const { return promptChanged_; }
+    bool promptChanged_;
 
     void makePrompt();
 
