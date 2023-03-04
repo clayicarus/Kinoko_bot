@@ -15,9 +15,8 @@ public:
                "The assistant is helpful, creative, clever, and very friendly. "
                "\n\nHuman: Hello, who are you?\nAI: I am Atri, an AI realized with GPT. How can Atri help you today?\n"
                "Human: 你可以说中文吗？\nAI: 当然可以，Atri有什么可以帮助您？\n"),
-          head("Human: ")
-    {
-        parameter = R"(
+          head("Human: "),
+          parameter(R"(
             {
                 "model": "text-davinci-003",
                 "max_tokens": 200,
@@ -27,19 +26,27 @@ public:
                 "presence_penalty": 0.5,
                 "stop": ["\nHuman: ", "\nAI: "]
             }
-          )"_json;
+          )"_json)
+    {
+
     }
     std::string say(const std::string &s)
     {
         std::string res;
         auto sentence = head + s + "\n";
         parameter["prompt"] = init + cache + sentence;
+        printf("%s:%d\n", __FILE__, __LINE__);
         auto r = OpenAI_API::createCompletion(parameter);
-        if(r["status_code"] == 200) {
-            std::string response = r["response_data"]["choices"][0]["text"];
-            res = response;
-            cache += sentence + response + "\n";
+        printf("%s:%d\n", __FILE__, __LINE__);
+        if(!r["is_error"]) {
+            if(r["status_code"] == 200) {
+                res = r["response_data"]["choices"][0]["text"];
+                cache += sentence + res + "\n";
+            } else {
+                res = "[API Error]: " + r["response_data"].dump();
+            }
         } else {
+            printf("%s:%d\n", __FILE__, __LINE__);
             std::string err_msg = r["error_message"];
             res = "[Network Error]: " + err_msg;
         }
