@@ -4,6 +4,8 @@
 
 #include "dependency.h"
 #include "cstdio"
+#include "ChatBot/ChatBot.h"
+#include "Logger.h"
 #include <memory>
 
 void f_getline(std::string &des, FILE *stream)
@@ -26,21 +28,22 @@ void fmt_scanf()
     printf("%s", temp);
 }
 
+
+
 int main()
 {
-
-    TestChat chat;
-    std::string s;
-    printf("%s:%d\n", __FILE__, __LINE__);
-    for(int i = 0; i < 10; ++i) {
-        f_getline(s, stdin);
-        printf("%s\n[Cache]: ", chat.say(s).c_str());
-        chat.printCache();
+    LOG_INFO("bot start");
+    ChatBot bot;
+    std::string speaker = "John";
+    while(true) {
+        std::string con;
+        f_getline(con, stdin);
+        if(con.empty())
+            break;
+        bot.speak(speaker, con);
+        printf("%s\n", bot.getOneReply(speaker).c_str());
     }
-    // fmt_scanf();
-    // char temp[5];
-    // scanf("%s", temp);
-    // printf("%s", temp);
+    // printf("%s", OpenAI_API::listModels().dump().c_str());
 
     return 0;
 }
