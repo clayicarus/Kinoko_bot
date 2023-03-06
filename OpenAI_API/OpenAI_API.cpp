@@ -3,12 +3,14 @@
 //
 
 #include "OpenAI_API.h"
+#include "../Logger.h"
 
 using namespace nlohmann;
 using namespace cpr;
 
 OpenAI_API::API_Response OpenAI_API::dumpResponse(const cpr::Response &r)
 {
+    LOG_DEBUG("dump response");
     API_Response res;
     if(r.error.code == cpr::ErrorCode::OK) {
         res["is_error"] = false;
@@ -18,6 +20,7 @@ OpenAI_API::API_Response OpenAI_API::dumpResponse(const cpr::Response &r)
         res["is_error"] = true;
         res["error_message"] = r.error.message;
     }
+    LOG_DEBUG(res.dump());
     return res;
 }
 
@@ -30,13 +33,14 @@ OpenAI_API::API_Response OpenAI_API::listModels()
 
 OpenAI_API::API_Response OpenAI_API::retrieveModel(const std::string &model_name)
 {
-    Response r = Get(Url(API_List::LIST_MODELS + model_name),
+    Response r = Get(Url(API_List::RETRIEVE_MODEL + model_name),
                      Header{{"Authorization", "Bearer " + API_KEY}});
     return dumpResponse(r);
 }
 
 OpenAI_API::API_Response OpenAI_API::createCompletion(const OpenAI_API::CreateCompletionPayload &payload)
 {
+    LOG_DEBUG(payload.dump());
     if(isEmptyInPayload(payload, {"model"})) {
         // throw;
     }
@@ -55,3 +59,21 @@ bool OpenAI_API::isEmptyInPayload(const nlohmann::json &payload, std::initialize
     }
     return false;
 }
+
+OpenAI_API::API_Response OpenAI_API::completionTest() {
+    nlohmann::json payload(R"(
+        {
+            "model": "text-davinci-003",
+            "prompt": "Say this is a test",
+            "max_tokens": 7,
+            "temperature": 0
+        }
+    )"_json);
+    printf("%s", payload.dump().c_str());
+    Response r = Post(Url(API_List::CREATE_COMPLETION),
+                      Header{{"Authorization", "Bearer " + API_KEY}},
+                      Header{{"Content-Type", "application/json"}},
+                      Body(payload.dump()));
+    return dumpResponse(r);
+}
+
