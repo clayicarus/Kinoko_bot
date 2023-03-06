@@ -13,7 +13,7 @@ set(UNOFFICIAL_LINK_LIST
         nlohmann_json::nlohmann_json
         )
 set(SOURCE_LIST
-        dependency.h
+        initKey.h
         TestChat.h
         OpenAI_API/OpenAI_API.cpp OpenAI_API/OpenAI_API.h
         ChatBot/ChatBot.cpp ChatBot/ChatBot.h

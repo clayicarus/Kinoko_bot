@@ -2,7 +2,7 @@
 // Created by clay on 3/2/23.
 //
 
-#include "dependency.h"
+#include "initKey.h"
 #include "cstdio"
 #include "ChatBot/ChatBot.h"
 #include "Logger.h"
@@ -27,8 +27,6 @@ void fmt_scanf()
     scanf(fmt, temp);   // fmt == "%4s"
     printf("%s", temp);
 }
-
-
 
 int main()
 {
