@@ -4,41 +4,33 @@
 
 #include <cassert>
 #include "ChatCache.h"
+#include "../Logger.h"
 
-const std::string &ChatCache::getPrompt()
+void ChatCache::insert(const ChatCache::Speaker &speaker, const ChatCache::Talk &talk)
 {
-    if(promptChanged()) {
-        makePrompt();
-    }
-    return prompt_;
-}
-
-void ChatCache::makePrompt()
-{
-    Content::size_type curSz = 0;
-    Content res;
-    promptChanged_ = false;
-    for(const auto &i : cache_) {
-        if(i.second.size() + curSz <= maxPromptSize()) {
-            curSz += i.second.size();
-            res.append(i.second);
-        } else {
-            return;
-        }
-    }
-}
-
-void ChatCache::insert(const ChatCache::Speaker &speaker, const ChatCache::Content &content)
-{
-    // TODO: Cache class, Prompt class, divide operation
-    while(content.size() + currentCacheSize() > maxPromptSize()) {
-        assert(!cache_.empty());    // FIXME: content.size() > maxPromptSize()
+    // <= max_size
+    // FIXME: talk.size() > maxCacheSize_
+    LOG_DEBUG("insert speaker and talk");
+    while(talk.size() + currCacheSize_ > maxCacheSize_) {
+        LOG_DEBUG("cache size full");
         currCacheSize_ -= cache_.back().second.size();
-        cache_.pop_back();
-        promptChanged_ = true;
+        cache_.pop_front();
     }
-    cache_.emplace_front(speaker, content);
-    if(!promptChanged()) {
-        prompt_.append(content);
+    LOG_DEBUG("cache updated");
+    cache_.emplace_back(speaker, talk);
+    currCacheSize_ += talk.size();
+}
+
+std::string ChatCache::getCacheString(unsigned long max_size) const
+{
+    Talk::size_type cur_sz = 0;
+    std::string res;
+    for(const auto &i : cache_) {
+        if(cur_sz + i.second.size() <= max_size)
+            res.append(i.second);
+        else
+            break;
     }
+    LOG_DEBUG("cache string get");
+    return res;
 }

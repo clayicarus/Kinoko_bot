@@ -8,32 +8,26 @@
 
 #include <string>
 #include <deque>
+#include "ChatMemory.h"
 
 class ChatCache {
     typedef std::string Speaker;
-    typedef std::string Content;
-    typedef std::deque<std::pair<Speaker, Content>> Cache;  // push_front, pop_back
+    typedef std::string Talk;
+    typedef std::deque<std::pair<Speaker, Talk>> Cache;  // push_back, pop_front
 public:
-    const std::string& getPrompt();
-    void insert(const Speaker &speaker, const Content &content);
+    explicit ChatCache(Talk::size_type cache_size)
+        : maxCacheSize_(cache_size), currCacheSize_(0)
+    {}
 
-    [[nodiscard]] const Content::size_type &maxPromptSize() const { return maxPromptSize_; }
-    Content::size_type &maxPromptSize() { return maxPromptSize_; }
+    [[nodiscard]] std::string getCacheString(Talk::size_type max_size) const;
+    void insert(const Speaker &speaker, const Talk &talk);
 
-    [[nodiscard]] const Content::size_type &currentCacheSize() const { return currCacheSize_; }
+    [[nodiscard]] const Talk::size_type &currentCacheSize() const { return currCacheSize_; }
 private:
-    Content::size_type currCacheSize_;
+    Talk::size_type maxCacheSize_;
+    Talk::size_type currCacheSize_;
     Cache cache_;
-
-    Content::size_type maxPromptSize_;
-    Content prompt_;
-
-    [[nodiscard]] const bool& promptChanged() const { return promptChanged_; }
-    bool promptChanged_;
-
-    void makePrompt();
-
-    void printCurrentPrompt() const { printf("%s", prompt_.c_str()); }
+    ChatMemory mem_;
 };
 
 
