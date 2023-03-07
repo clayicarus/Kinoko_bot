@@ -69,7 +69,6 @@ OpenAI_API::API_Response OpenAI_API::completionTest() {
             "temperature": 0
         }
     )"_json);
-    printf("%s", payload.dump().c_str());
     Response r = Post(Url(API_List::CREATE_COMPLETION),
                       Header{{"Authorization", "Bearer " + API_KEY}},
                       Header{{"Content-Type", "application/json"}},

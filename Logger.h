@@ -16,6 +16,8 @@ public:
     static constexpr char ERROR[] = "[ERROR]";
     static constexpr char FATAL[] = "[FATAL]";
     Logger(const char *level, const char *file, int line, const std::string &info) {
+        if(level == DEBUG)
+            return;
         printf("%s [%s:%d]  %s\n", level, file, line, info.c_str());
         if(level == FATAL)
             abort();
