@@ -32,16 +32,22 @@ int main()
 {
     LOG_INFO("bot start");
     ChatBot bot;
-    std::string speaker = "John";
-    while(true) {
-        std::string con;
-        f_getline(con, stdin);
-        if(con.empty())
-            break;
-        bot.speak(speaker, con);
-        printf("%s\n", bot.getOneReply(speaker).c_str());
+    bot.name() = "东海帝皇";
+    bot.scene() = "以下是马卡龙和东海帝皇的对话。东海帝皇是一位赛马娘，曾经在日本有马、皋月赏、日本德比等重量级赛事夺得桂冠。"
+                  "她性格好强、元气满满、粘人、比较自恋、性格敏感。马卡龙是她的教练，也是东海帝皇的好朋友。"
+                  "目白麦昆是东海帝皇的对手兼好友，两人共同竞争，共同进步。\n";
+    std::vector<std::pair<std::string, std::string>> v {
+            { "马卡龙", {} }, { "目白麦昆", {} }
+    };
+    for(int i = 0; i < v.size(); i = (i + 1) % v.size()) {
+        auto &[speaker, content] = v[i];
+        printf("%s: ", speaker.c_str());
+        f_getline(content, stdin);
+        if(content.empty())
+            continue;
+        bot.speak(speaker, content);
+        printf("%s: %s\n", bot.name().c_str(), bot.getOneReply(speaker).c_str());
     }
-    // printf("%s", OpenAI_API::listModels().dump().c_str());
 
     return 0;
 }
