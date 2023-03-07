@@ -13,17 +13,19 @@ std::string ChatBot::getOneReply(const std::string &name)
     }
     auto res = messages_.back();
     messages_.pop_back();
-    res = res.substr(name.size() + strlen(": "));
     return res;
 }
 
-void ChatBot::speak(const std::string &speaker, const std::string &content)
+void ChatBot::speak(std::string_view speaker, std::string_view content)
 {
-    auto talk = speaker + ": " + content + "\n";
+    // generate and set prompt
+    auto talk = std::string(speaker) + ": " + std::string(content) + "\n" + name_ + ": "; // A: xxx\nB:
     auto prompt = scene_ + cache_.getCacheString(3000) + talk;
-    setSpeakers(speaker);
     parameter_.setPrompt(prompt);
-
+    // insert and set speakers
+    currentSpeaker_.insert(speaker);
+    setSpeakers();
+    // request api for completion
     std::string res;
     LOG_INFO("createCompletion");
     auto r = OpenAI_API::createCompletion(parameter_.getPara());
@@ -45,12 +47,17 @@ void ChatBot::speak(const std::string &speaker, const std::string &content)
     messages_.push_front(res);
 }
 
-void ChatBot::setSpeakers(const std::string &speaker)
+void ChatBot::setSpeakers()
 {
-    auto temp(speaker);
-    temp.push_back('\n');
-    temp = "\n" + temp + ": ";
-    auto self = "\n" + name_ + ": ";
-    parameter_.setStop({self, temp});
+    auto b = currentSpeaker_.cbegin();
+    auto e = currentSpeaker_.cend();
+    std::vector<std::string> res;
+    while(b != e) {
+        auto temp = toStopFormat(*b++);
+        res.emplace_back(temp);
+    }
+    res.emplace_back(toStopFormat(name()));
+    LOG_DEBUG("set speaker");
+    parameter_.setStop(res);
 }
 

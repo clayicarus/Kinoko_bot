@@ -20,7 +20,7 @@ public:
     {}
 
     [[nodiscard]] std::string getCacheString(Talk::size_type max_size) const;
-    void insert(const Speaker &speaker, const Talk &talk);
+    void insert(std::string_view speaker, std::string_view talk);
 
     [[nodiscard]] const Talk::size_type &currentCacheSize() const { return currCacheSize_; }
 private:

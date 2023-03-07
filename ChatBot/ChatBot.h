@@ -11,6 +11,7 @@
 #include "ChatCache.h"
 #include "CompletionParameter.h"
 #include "ChatMemory.h"
+#include "CurrentSpeaker.h"
 
 class CompletionParameter;
 class ChatCache;
@@ -25,23 +26,26 @@ public:
                  "Human: 你可以说中文吗？\n"
                  "Atri: 当然可以，Atri有什么可以帮助您？\n"),
           name_("Atri"),
-          cache_(3000)
+          cache_(3000),
+          currentSpeaker_(3)
     {}
-    void speak(const std::string &speaker, const std::string &content);
+    void speak(std::string_view speaker, std::string_view content);
     std::string getOneReply(const std::string &name);
-
+    std::string &scene() { return scene_; }
+    std::string &name() { return name_; }
 private:
-    void setSpeakers(const std::string &speaker);
+    static std::string toStopFormat(std::string_view name) { return '\n' + std::string(name) + ": "; }
+    void setSpeakers();
 
     typedef std::deque<std::string> MessageQueue;
     MessageQueue messages_;
 
     ChatCache cache_;
 
-    const std::string name_;
+    std::string name_;
     std::string scene_;
-    std::set<std::string> currentSpeaker_;
 
+    CurrentSpeaker currentSpeaker_;
     CompletionParameter parameter_;
 };
 

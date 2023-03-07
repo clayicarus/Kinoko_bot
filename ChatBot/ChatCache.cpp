@@ -6,7 +6,7 @@
 #include "ChatCache.h"
 #include "../Logger.h"
 
-void ChatCache::insert(const ChatCache::Speaker &speaker, const ChatCache::Talk &talk)
+void ChatCache::insert(std::string_view speaker, std::string_view talk)
 {
     // <= max_size
     // FIXME: talk.size() > maxCacheSize_

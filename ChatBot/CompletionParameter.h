@@ -14,9 +14,9 @@ public:
     CompletionParameter() :
         model_("text-davinci-003"),
         max_tokens_(200),
-        temperature_(.3f),
+        temperature_(.6f),
         frequency_penalty_(.5f),
-        presence_penalty_(.5)
+        presence_penalty_(.5f)
     {}
     [[nodiscard]] const nlohmann::json &getPara();
     unsigned &max_tokens() { return max_tokens_; }
