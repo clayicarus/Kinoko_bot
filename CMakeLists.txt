@@ -20,7 +20,7 @@ set(SOURCE_LIST
         ChatBot/ChatCache.cpp ChatBot/ChatCache.h
         ChatBot/CompletionParameter.cpp ChatBot/CompletionParameter.h
         ChatBot/ChatMemory.cpp ChatBot/ChatMemory.h
-        Logger.cpp Logger.h)
+        Logger.cpp Logger.h ChatBot/CurrentSpeaker.cpp ChatBot/CurrentSpeaker.h)
 
 add_executable(atri main.cpp ${SOURCE_LIST})
 target_link_libraries(atri PRIVATE ${UNOFFICIAL_LINK_LIST})
