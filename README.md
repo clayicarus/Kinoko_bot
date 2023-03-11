@@ -2,12 +2,14 @@
 
 基于 OpenAI 的 TextCompletion API 实现的 AI 对话机器人。
 
+### 编译环境
 
+- ubuntu 22.04
 
 ### 编译前的准备
 
 - 需要在根目录中新建一个文件 `initKey.h` ，在其中使用 OpenAI 的API key 定义 `API_KEY`。
-- 安装并配置如下的第三方库
+- 安装vcpkg并导入如下的第三方库
   - HTTP 库： [C++ Requests](https://github.com/libcpr/cpr)
   - JSON 库：[JSON for Modern C++](https://github.com/nlohmann/json)
 
