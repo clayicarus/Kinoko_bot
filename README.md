@@ -1,6 +1,6 @@
 ## AtriBot
 
-基于 OpenAI 的 TextCompletion API 实现的 AI 对话机器人。
+基于 Mirai 框架及 TextCompletion API 的高性能 QQ AI 对话机器人。
 
 ### 编译环境
 
