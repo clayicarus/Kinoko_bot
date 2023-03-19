@@ -8,7 +8,7 @@
 
 ### 编译前的准备
 
-- 需要在根目录中新建一个文件 `initKey.cpp` ，在其中使用 OpenAI 的API key 定义 `API_KEY`。
+- 需要在根目录中新建一个文件 `initKey.cpp` ，在其中使用自己的 OpenAI API key 定义 `API_KEY`。
 - 安装vcpkg并导入如下的第三方库
   - HTTP 库： [C++ Requests](https://github.com/libcpr/cpr)
   - JSON 库：[JSON for Modern C++](https://github.com/nlohmann/json)
