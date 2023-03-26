@@ -14,7 +14,7 @@ public:
     CompletionParameter() :
         model_("text-davinci-003"),
         max_tokens_(200),
-        temperature_(.6f),
+        temperature_(.3f),
         frequency_penalty_(.5f),
         presence_penalty_(.5f)
     {}

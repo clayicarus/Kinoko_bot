@@ -12,6 +12,7 @@
 #include "CompletionParameter.h"
 #include "ChatMemory.h"
 #include "CurrentSpeaker.h"
+#include "ThreadsafeQueue.h"
 
 class CompletionParameter;
 class ChatCache;
@@ -30,14 +31,14 @@ public:
           currentSpeaker_(3)
     {}
     void speak(std::string_view speaker, std::string_view content);
-    std::string getOneReply(const std::string &name);
+    std::string getOneReply(std::string_view name);
     std::string &scene() { return scene_; }
     std::string &name() { return name_; }
 private:
     static std::string toStopFormat(std::string_view name) { return '\n' + std::string(name) + ": "; }
     void setSpeakers();
 
-    typedef std::deque<std::string> MessageQueue;
+    typedef ThreadsafeQueue<std::string> MessageQueue;
     MessageQueue messages_;
 
     ChatCache cache_;

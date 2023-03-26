@@ -13,14 +13,14 @@ set(UNOFFICIAL_LINK_LIST
         nlohmann_json::nlohmann_json
         )
 set(SOURCE_LIST
-        initKey.h
+        initKey.cpp
         TestChat.h
         OpenAI_API/OpenAI_API.cpp OpenAI_API/OpenAI_API.h
         ChatBot/ChatBot.cpp ChatBot/ChatBot.h
         ChatBot/ChatCache.cpp ChatBot/ChatCache.h
         ChatBot/CompletionParameter.cpp ChatBot/CompletionParameter.h
         ChatBot/ChatMemory.cpp ChatBot/ChatMemory.h
-        Logger.cpp Logger.h ChatBot/CurrentSpeaker.cpp ChatBot/CurrentSpeaker.h)
+        Logger.cpp Logger.h ChatBot/CurrentSpeaker.cpp ChatBot/CurrentSpeaker.h ChatBot/ThreadsafeQueue.h)
 
 add_executable(atri main.cpp ${SOURCE_LIST})
 target_link_libraries(atri PRIVATE ${UNOFFICIAL_LINK_LIST})

@@ -6,13 +6,15 @@
 #include "../OpenAI_API/OpenAI_API.h"
 #include "../Logger.h"
 
-std::string ChatBot::getOneReply(const std::string &name)
+std::string ChatBot::getOneReply(std::string_view name)
 {
-    if(messages_.empty()) {
-        LOG_FATAL("MessageQueue empty");
+    std::lock_guard<std::mutex> lock(messages_.mutex());
+    if(messages_.deque().empty()) {
+        // LOG_WARN("MessageQueue empty");
+        return "";
     }
-    auto res = messages_.back();
-    messages_.pop_back();
+    auto res = messages_.deque().back();
+    messages_.deque().pop_back();
     return res;
 }
 
@@ -44,7 +46,9 @@ void ChatBot::speak(std::string_view speaker, std::string_view content)
         std::string err_msg = r["error_message"];
         res = "[Network Error]: " + err_msg;
     }
-    messages_.push_front(res);
+
+    std::lock_guard<std::mutex> lock(messages_.mutex());
+    messages_.deque().push_front(res);
 }
 
 void ChatBot::setSpeakers()
