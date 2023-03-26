@@ -24,6 +24,9 @@ public:
     float &frequency_penalty() { return frequency_penalty_; }
     float &presence_penalty() { return presence_penalty_; }
     std::string &model() { return model_; }
+
+    void setPrompt(const std::string &prompt) { para_["prompt"] = prompt; }
+    void setStop(const std::vector<std::string> &stop) { para_["stop"] = stop; }
 private:
     std::string model_;
     unsigned max_tokens_;
@@ -32,8 +35,6 @@ private:
     float presence_penalty_;
     nlohmann::json para_;
 
-    void setPrompt(const std::string &prompt) { para_["prompt"] = prompt; }
-    void setStop(const std::vector<std::string> &stop) { para_["stop"] = stop; }
 };
 
 

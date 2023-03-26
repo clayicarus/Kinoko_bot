@@ -3,7 +3,7 @@
 //
 
 #include <iostream>
-#include "ChatBot/ChatBot.h"
+#include "Chat/Chat.h"
 #include "OpenAI_API/OpenAI_API.h"
 
 void f_getline(std::string &des, FILE *stream)
@@ -21,7 +21,7 @@ int main()
     std::cout << OpenAI_API::retrieveModel("gpt-3.5-turbo") << std::endl;
     std::cout << OpenAI_API::retrieveModel("gpt-3.5-turbo-0301") << std::endl;
     std::cout << OpenAI_API::retrieveModel("text-davinci-003") << std::endl;
-    ChatBot bot;
+    Chat bot;
     const std::string speaker = "Human";
     while(true) {
         std::string content;
