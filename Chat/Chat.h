@@ -2,8 +2,8 @@
 // Created by clay on 3/3/23.
 //
 
-#ifndef ATRI_CHATBOT_H
-#define ATRI_CHATBOT_H
+#ifndef ATRI_CHAT_H
+#define ATRI_CHAT_H
 
 #include <string>
 #include <vector>
@@ -17,9 +17,9 @@
 class CompletionParameter;
 class ChatCache;
 
-class ChatBot {
+class Chat {
 public:
-    ChatBot()
+    Chat()
         : scene_("The following is a conversation with an AI assistant. "
                  "The assistant is helpful, creative, clever, and very friendly. "
                  "\n\nHuman: Hello, who are you?\n"
@@ -50,4 +50,4 @@ private:
     CompletionParameter parameter_;
 };
 
-#endif //ATRI_CHATBOT_H
+#endif //ATRI_CHAT_H

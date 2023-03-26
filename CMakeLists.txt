@@ -16,11 +16,11 @@ set(SOURCE_LIST
         initKey.cpp
         TestChat.h
         OpenAI_API/OpenAI_API.cpp OpenAI_API/OpenAI_API.h
-        ChatBot/ChatBot.cpp ChatBot/ChatBot.h
-        ChatBot/ChatCache.cpp ChatBot/ChatCache.h
-        ChatBot/CompletionParameter.cpp ChatBot/CompletionParameter.h
-        ChatBot/ChatMemory.cpp ChatBot/ChatMemory.h
-        Logger.cpp Logger.h ChatBot/CurrentSpeaker.cpp ChatBot/CurrentSpeaker.h ChatBot/ThreadsafeQueue.h)
+        Chat/Chat.cpp Chat/Chat.h
+        Chat/ChatCache.cpp Chat/ChatCache.h
+        Chat/CompletionParameter.cpp Chat/CompletionParameter.h
+        Chat/ChatMemory.cpp Chat/ChatMemory.h
+        Logger.cpp Logger.h Chat/CurrentSpeaker.cpp Chat/CurrentSpeaker.h Chat/ThreadsafeQueue.h)
 
 add_executable(atri main.cpp ${SOURCE_LIST})
 target_link_libraries(atri PRIVATE ${UNOFFICIAL_LINK_LIST})

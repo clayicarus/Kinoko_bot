@@ -2,11 +2,11 @@
 // Created by clay on 3/3/23.
 //
 
-#include "ChatBot.h"
+#include "Chat.h"
 #include "../OpenAI_API/OpenAI_API.h"
 #include "../Logger.h"
 
-std::string ChatBot::getOneReply(std::string_view name)
+std::string Chat::getOneReply(std::string_view name)
 {
     std::lock_guard<std::mutex> lock(messages_.mutex());
     if(messages_.deque().empty()) {
@@ -18,7 +18,7 @@ std::string ChatBot::getOneReply(std::string_view name)
     return res;
 }
 
-void ChatBot::speak(std::string_view speaker, std::string_view content)
+void Chat::speak(std::string_view speaker, std::string_view content)
 {
     // generate and set prompt
     auto talk = std::string(speaker) + ": " + std::string(content) + "\n" + name_ + ": "; // A: xxx\nB:
@@ -51,7 +51,7 @@ void ChatBot::speak(std::string_view speaker, std::string_view content)
     messages_.deque().push_front(res);
 }
 
-void ChatBot::setSpeakers()
+void Chat::setSpeakers()
 {
     auto b = currentSpeaker_.cbegin();
     auto e = currentSpeaker_.cend();
