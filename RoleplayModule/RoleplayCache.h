@@ -5,7 +5,6 @@
 #ifndef ATRI_ROLEPLAYCACHE_H
 #define ATRI_ROLEPLAYCACHE_H
 
-
 #include <string>
 #include <deque>
 

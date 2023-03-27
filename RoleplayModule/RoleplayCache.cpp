@@ -4,19 +4,15 @@
 
 #include <cassert>
 #include "RoleplayCache.h"
-#include "../Logger.h"
 
 void RoleplayCache::insert(std::string_view speaker, std::string_view talk)
 {
     // <= max_size
     // FIXME: talk.size() > maxCacheSize_
-    LOG_DEBUG("insert speaker and talk");
     while(talk.size() + currCacheSize_ > maxCacheSize_) {
-        LOG_DEBUG("cache size full");
         currCacheSize_ -= cache_.back().second.size();
         cache_.pop_front();
     }
-    LOG_DEBUG("cache updated");
     cache_.emplace_back(speaker, talk);
     currCacheSize_ += talk.size();
 }
@@ -31,6 +27,5 @@ std::string RoleplayCache::getCacheString(unsigned long max_size) const
         else
             break;
     }
-    LOG_DEBUG("cache string get");
     return res;
 }

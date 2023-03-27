@@ -3,14 +3,12 @@
 //
 
 #include "OpenAI_API.h"
-#include "../Logger.h"
 
 using namespace nlohmann;
 using namespace cpr;
 
 OpenAI_API::API_Response OpenAI_API::dumpResponse(const cpr::Response &r)
 {
-    LOG_DEBUG("dump response");
     API_Response res;
     if(r.error.code == cpr::ErrorCode::OK) {
         res["is_error"] = false;
@@ -20,7 +18,6 @@ OpenAI_API::API_Response OpenAI_API::dumpResponse(const cpr::Response &r)
         res["is_error"] = true;
         res["error_message"] = r.error.message;
     }
-    LOG_DEBUG(res.dump());
     return res;
 }
 
@@ -40,7 +37,6 @@ OpenAI_API::API_Response OpenAI_API::retrieveModel(const std::string &model_name
 
 OpenAI_API::API_Response OpenAI_API::createCompletion(const OpenAI_API::CreateCompletionPayload &payload)
 {
-    LOG_DEBUG(payload.dump());
     if(isEmptyInPayload(payload, {"model"})) {
         // throw;
     }

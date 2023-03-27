@@ -4,7 +4,6 @@
 
 #include "Roleplay.h"
 #include "OpenAI_API/OpenAI_API.h"
-#include "Logger.h"
 
 bool Roleplay::speak(std::string_view content, const Roleplay::MessageCallback& cb)
 {
@@ -37,11 +36,11 @@ bool Roleplay::speak(std::string_view content, const Roleplay::MessageCallback& 
                 talk.append(res);
                 cache_.insert(speaker(), talk);
             } else {
-                LOG_ERROR("API response error");
+                // LOG_ERROR("API response error");
                 res = "[API Error]: " + r["response_data"].dump();
             }
         } else {
-            LOG_ERROR("cpr error");
+            // LOG_ERROR("cpr error");
             std::string err_msg = r["error_message"];
             res = "[Network Error]: " + err_msg;
         }
