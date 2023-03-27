@@ -8,7 +8,6 @@
 
 #include <string>
 #include <deque>
-#include "ChatMemory.h"
 
 class ChatCache {
     typedef std::string Speaker;
@@ -27,7 +26,6 @@ private:
     Talk::size_type maxCacheSize_;
     Talk::size_type currCacheSize_;
     Cache cache_;
-    ChatMemory mem_;
 };
 
 

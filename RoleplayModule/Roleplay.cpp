@@ -3,8 +3,8 @@
 //
 
 #include "Chat.h"
-#include "../OpenAI_API/OpenAI_API.h"
-#include "../Logger.h"
+#include "OpenAI_API/OpenAI_API.h"
+#include "Logger.h"
 
 std::string Chat::getOneReply(std::string_view name)
 {

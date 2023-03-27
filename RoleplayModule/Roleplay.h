@@ -14,9 +14,6 @@
 #include "CurrentSpeaker.h"
 #include "ThreadsafeQueue.h"
 
-class CompletionParameter;
-class ChatCache;
-
 class Chat {
 public:
     Chat()
