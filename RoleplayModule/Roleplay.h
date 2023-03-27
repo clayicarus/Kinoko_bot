@@ -16,7 +16,7 @@ class Roleplay {
     static constexpr int MAX_CACHE_SIZE = 3000;
 public:
     Roleplay()
-        : scene_("以下是与AI助理的一段对话。它十分能干、聪慧、具有创造性，而且待人十分友善。\n"),
+        : scene_("以下是与AI助理的一段对话。它十分能干、聪慧、具有创造性，而且待人十分友善。\n\n"), // must be two \n
           speaker_("Human"),
           name_("Atri"),
           cache_(MAX_CACHE_SIZE),

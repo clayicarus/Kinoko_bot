@@ -10,7 +10,7 @@
 void WebsocketServer::onConnection(const muduo::net::TcpConnectionPtr &conn)
 {
     if(conn->connected()) {
-        LOG_INFO << conn->name() << " - " << conn->peerAddress().toIpPort() << " is UP";
+        LOG_DEBUG << conn->name() << " - " << conn->peerAddress().toIpPort() << " is UP";
         conn->setContext(boost::any_cast<ConnectionStatus>(ConnectionStatus::WAIT_HANDSHAKE));
     } else {
         LOG_INFO << conn->name() << " - " << conn->peerAddress().toIpPort() << " is DOWN";
