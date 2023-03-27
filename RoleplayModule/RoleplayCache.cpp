@@ -3,10 +3,10 @@
 //
 
 #include <cassert>
-#include "ChatCache.h"
+#include "RoleplayCache.h"
 #include "../Logger.h"
 
-void ChatCache::insert(std::string_view speaker, std::string_view talk)
+void RoleplayCache::insert(std::string_view speaker, std::string_view talk)
 {
     // <= max_size
     // FIXME: talk.size() > maxCacheSize_
@@ -21,7 +21,7 @@ void ChatCache::insert(std::string_view speaker, std::string_view talk)
     currCacheSize_ += talk.size();
 }
 
-std::string ChatCache::getCacheString(unsigned long max_size) const
+std::string RoleplayCache::getCacheString(unsigned long max_size) const
 {
     Talk::size_type cur_sz = 0;
     std::string res;

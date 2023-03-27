@@ -2,8 +2,6 @@ project(atri)
 cmake_minimum_required(VERSION 3.24)
 
 set(CMAKE_CXX_STANDARD 17)
-add_compile_options(-fsanitize=address)
-link_libraries(-fsanitize=address)
 
 include_directories(.)
 include_directories(include)
@@ -24,11 +22,9 @@ set(SOURCE_LIST
 
         OpenAI_API/OpenAI_API.cpp
 
-        Chat/Chat.cpp
-        Chat/ChatCache.cpp
-        Chat/CompletionParameter.cpp
-        Chat/ChatMemory.cpp
-        Chat/CurrentSpeaker.cpp
+        RoleplayModule/Roleplay.cpp
+        RoleplayModule/RoleplayCache.cpp
+        RoleplayModule/CompletionParameter.cpp
 
         WebsocketServer/WebsocketServer.cpp
         WebsocketServer/DataFrameCodec.cpp
@@ -38,8 +34,8 @@ set(SOURCE_LIST
         base/sha1_portable.cpp
         )
 
-add_executable(atri main.cpp ${SOURCE_LIST})
-target_link_libraries(atri PRIVATE ${UNOFFICIAL_LINK_LIST})
+add_executable(${PROJECT_NAME} main.cpp ${SOURCE_LIST})
+target_link_libraries(${PROJECT_NAME} PRIVATE ${UNOFFICIAL_LINK_LIST})
 
 add_executable(test test.cpp ${SOURCE_LIST})
 target_link_libraries(test PRIVATE ${UNOFFICIAL_LINK_LIST})

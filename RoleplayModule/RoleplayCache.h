@@ -2,19 +2,19 @@
 // Created by clay on 3/3/23.
 //
 
-#ifndef ATRI_CHATCACHE_H
-#define ATRI_CHATCACHE_H
+#ifndef ATRI_ROLEPLAYCACHE_H
+#define ATRI_ROLEPLAYCACHE_H
 
 
 #include <string>
 #include <deque>
 
-class ChatCache {
+class RoleplayCache {
     typedef std::string Speaker;
     typedef std::string Talk;
     typedef std::deque<std::pair<Speaker, Talk>> Cache;  // push_back, pop_front
 public:
-    explicit ChatCache(Talk::size_type cache_size)
+    explicit RoleplayCache(Talk::size_type cache_size)
         : maxCacheSize_(cache_size), currCacheSize_(0)
     {}
 
@@ -29,4 +29,4 @@ private:
 };
 
 
-#endif //ATRI_CHATCACHE_H
+#endif //ATRI_ROLEPLAYCACHE_H

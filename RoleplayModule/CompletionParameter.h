@@ -9,7 +9,6 @@
 #include <string>
 
 class CompletionParameter {
-    friend class ChatBot;
 public:
     CompletionParameter() :
         model_("text-davinci-003"),

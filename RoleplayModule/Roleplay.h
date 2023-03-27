@@ -2,49 +2,46 @@
 // Created by clay on 3/3/23.
 //
 
-#ifndef ATRI_CHAT_H
-#define ATRI_CHAT_H
+#ifndef ATRI_ROLEPLAY_H
+#define ATRI_ROLEPLAY_H
 
 #include <string>
 #include <vector>
 #include <set>
-#include "ChatCache.h"
+#include <atomic>
+#include "RoleplayCache.h"
 #include "CompletionParameter.h"
-#include "ChatMemory.h"
-#include "CurrentSpeaker.h"
-#include "ThreadsafeQueue.h"
 
-class Chat {
+class Roleplay {
+    static constexpr int MAX_CACHE_SIZE = 3000;
 public:
-    Chat()
-        : scene_("The following is a conversation with an AI assistant. "
-                 "The assistant is helpful, creative, clever, and very friendly. "
-                 "\n\nHuman: Hello, who are you?\n"
-                 "Atri: I am Atri, an AI realized with GPT. How can Atri help you today?\n"
-                 "Human: 你可以说中文吗？\n"
-                 "Atri: 当然可以，Atri有什么可以帮助您？\n"),
+    Roleplay()
+        : scene_("以下是与AI助理的一段对话。它十分能干、聪慧、具有创造性，而且待人十分友善。\n"),
+          speaker_("Human"),
           name_("Atri"),
-          cache_(3000),
-          currentSpeaker_(3)
+          cache_(MAX_CACHE_SIZE),
+          working_(false)
     {}
-    void speak(std::string_view speaker, std::string_view content);
-    std::string getOneReply(std::string_view name);
-    std::string &scene() { return scene_; }
-    std::string &name() { return name_; }
+    typedef std::function<void(const std::string &)> MessageCallback;
+    bool speak(std::string_view content, const MessageCallback& cb);
+    [[nodiscard]] const std::string &scene() const { return scene_; }
+    [[nodiscard]] const std::string &name() const { return name_; }
+    [[nodiscard]] const std::string &speaker() const { return speaker_; }
+    bool setSpeaker(std::string_view new_speaker);
+    bool setName(std::string_view new_name);
+    bool setScene(std::string_view new_scene);
+
+
 private:
     static std::string toStopFormat(std::string_view name) { return '\n' + std::string(name) + ": "; }
-    void setSpeakers();
 
-    typedef ThreadsafeQueue<std::string> MessageQueue;
-    MessageQueue messages_;
-
-    ChatCache cache_;
-
+    std::string speaker_;
     std::string name_;
     std::string scene_;
-
-    CurrentSpeaker currentSpeaker_;
+    RoleplayCache cache_;
     CompletionParameter parameter_;
+
+    std::atomic<bool> working_;
 };
 
-#endif //ATRI_CHAT_H
+#endif //ATRI_ROLEPLAY_H
