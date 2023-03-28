@@ -39,7 +39,7 @@ void WebsocketServer::onData(const muduo::net::TcpConnectionPtr &conn, muduo::ne
 
 void WebsocketServer::handleHandshake(const muduo::net::TcpConnectionPtr &conn, muduo::net::Buffer *buf)
 {
-    LOG_DEBUG << conn->name() << " " << conn->peerAddress().toIpPort() << " - websocket handshake received";
+    LOG_INFO << conn->name() << " " << conn->peerAddress().toIpPort() << " - websocket handshake received";
 
     static constexpr auto WS_MAX_HANDSHAKE_FRAME_SIZE = 1024 * 1000;
     if(buf->readableBytes() > WS_MAX_HANDSHAKE_FRAME_SIZE) {
@@ -90,7 +90,7 @@ void WebsocketServer::handleHandshake(const muduo::net::TcpConnectionPtr &conn, 
 void
 WebsocketServer::onMessage(const muduo::net::TcpConnectionPtr &conn, const std::string &msg, muduo::Timestamp recvTime)
 {
-    LOG_DEBUG << conn->name() << " " << conn->peerAddress().toIpPort() << " - "
-             << "msg received at " << recvTime.toFormattedString() << " decoded";
+    LOG_INFO << conn->name() << " " << conn->peerAddress().toIpPort() << " - "
+             << msg.size() << " bytes of message received";
     messageCallback_(conn, msg, muduo::Timestamp::now());
 }
