@@ -4,6 +4,7 @@
 
 #include "Roleplay.h"
 #include "OpenAI_API/OpenAI_API.h"
+#include "base/StringExtra.h"
 
 bool Roleplay::speak(std::string_view content, const Roleplay::MessageCallback& cb)
 {
@@ -11,28 +12,33 @@ bool Roleplay::speak(std::string_view content, const Roleplay::MessageCallback& 
     // TODO: forbidden to call when speaking
     // TODO: success callback and failure callback
 
-    if(working_) {
+    // is safe?
+    if(!m_.try_lock()) {
         // is working now
         return false;
+    } else {
+        m_.unlock();
     }
 
     std::string cnt(content);
     auto f = [this, cnt, cb]() {
         // dont capture &cb, cb may destroyed
         // FIXME: when *this destroyed
-        working_ = true;
+        std::lock_guard lock(m_);
 
         // generate and set prompt
-        auto talk = toStopFormat(speaker()) + cnt + toStopFormat(name()); // A: xxx\nB:
-        auto prompt = scene_ + cache_.getCacheString(MAX_CACHE_SIZE) + talk;
+        auto talk = toStopFormat(speaker()) + cnt + toStopFormat(botName()); // A: xxx\nB:
+        auto prompt = scene() + characterInfo() + cache_.getCacheString(MAX_CACHE_SIZE) + talk;
         parameter_.setPrompt(prompt);
-        parameter_.setStop({toStopFormat(speaker()), toStopFormat(name())});
+        parameter_.setStop({toStopFormat(speaker()), toStopFormat(botName())});
         // request api for completion
         std::string res;
         auto r = OpenAI_API::createCompletion(parameter_.getPara());
         if(!r["is_error"]) {
             if(r["status_code"] == 200) {
                 res = r["response_data"]["choices"][0]["text"];
+                StringExtra::trim(res, '\n');
+                StringExtra::trim(res, ' ');
                 talk.append(res);
                 cache_.insert(speaker(), talk);
             } else {
@@ -45,10 +51,9 @@ bool Roleplay::speak(std::string_view content, const Roleplay::MessageCallback& 
             res = "[Network Error]: " + err_msg;
         }
         cb(res);
-
-        working_ = false;
     };
 
+    // FIXME: jthread in class Roleplay
     std::thread t(f);
     t.detach();
 
@@ -57,21 +62,24 @@ bool Roleplay::speak(std::string_view content, const Roleplay::MessageCallback& 
 
 bool Roleplay::setSpeaker(std::string_view new_speaker)
 {
-    // TODO: Update cache, forbidden to call when speaking
+    // TODO: Update cache
+    // TODO: Forbidden to call when speaking
     speaker_ = new_speaker;
     return true;
 }
 
-bool Roleplay::setName(std::string_view new_name)
+bool Roleplay::setBotName(std::string_view new_name)
 {
-    // TODO: Update cache, forbidden to call when speaking
-    name_ = new_name;
+    // TODO: Update cache
+    // TODO: Forbidden to call when speaking
+    bot_name_ = new_name;
     return true;
 }
 
-bool Roleplay::setScene(std::string_view new_scene)
+bool Roleplay::setCharacterInfo(std::string_view new_set)
 {
-    // TODO: Clean cache, forbidden to call when speaking
-    scene_ = new_scene;
+    // TODO: Update cache
+    // TODO: Forbidden to call when speaking
+    characterInfo_ = new_set;
     return true;
 }
