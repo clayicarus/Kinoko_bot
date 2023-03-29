@@ -1,4 +1,4 @@
-## AtriBot
+## KinokoBot
 
 基于 Mirai 框架及 TextCompletion API 的高性能 QQ AI 对话机器人。
 
