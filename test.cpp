@@ -157,10 +157,6 @@ void messageHandler(const nlohmann::json& event, Qid self_id, int64_t time)
             nlohmann::json req_para;
             Qid group_id = event["group_id"].get<Qid>();
             req_para["group_id"] = group_id;
-            if(!g_id_chat.count(sender_id)) {
-                g_id_chat.emplace(sender_id,std::make_unique<Roleplay>(BOT_NAME, "Human"));
-            }
-            auto &chat = g_id_chat[sender_id];
             auto reply_to_sender = [req_para](const std::string &rep) {
                 auto j(req_para);
                 j["message"] = rep;
@@ -177,9 +173,16 @@ void messageHandler(const nlohmann::json& event, Qid self_id, int64_t time)
                     msg.append(temp);
                 }
             }
-            if(!chat->speak(msg, reply_to_sender)) {
-                reply_to_sender(chat->botName() + "还在思考，请稍等一下。");
+
+            if(!g_id_chat.count(sender_id))
+                reply_to_sender(BOT_NAME + std::string("，绝赞休眠中"));
+            if(!g_id_chat.count(sender_id)) {
+                g_id_chat.emplace(sender_id,std::make_unique<Roleplay>(BOT_NAME, "Human"));
             }
+            // auto &chat = g_id_chat[sender_id];
+            // if(!chat->speak(msg, reply_to_sender)) {
+            //     reply_to_sender(chat->botName() + "还在思考，请稍等一下。");
+            // }
         };
         auto onPrivateMessage = [=](){
             nlohmann::json req_para;
