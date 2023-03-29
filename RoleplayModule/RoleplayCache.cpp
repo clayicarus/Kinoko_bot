@@ -8,13 +8,13 @@
 void RoleplayCache::insert(std::string_view speaker, std::string_view talk)
 {
     // <= max_size
-    // FIXME: talk.size() > maxCacheSize_
-    while(talk.size() + currCacheSize_ > maxCacheSize_) {
-        currCacheSize_ -= cache_.back().second.size();
+    // FIXME: talk.size() > max_cache_size_
+    while(talk.size() + curr_cache_size_ > max_cache_size_) {
+        curr_cache_size_ -= cache_.back().second.size();
         cache_.pop_front();
     }
     cache_.emplace_back(speaker, talk);
-    currCacheSize_ += talk.size();
+    curr_cache_size_ += talk.size();
 }
 
 std::string RoleplayCache::getCacheString(unsigned long max_size) const

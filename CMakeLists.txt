@@ -24,7 +24,7 @@ set(SOURCE_LIST
 
         RoleplayModule/Roleplay.cpp
         RoleplayModule/RoleplayCache.cpp
-        RoleplayModule/CompletionParameter.cpp
+        OpenAI_API/CompletionParameter.cpp
 
         WebsocketServer/WebsocketServer.cpp
         WebsocketServer/DataFrameCodec.cpp

@@ -15,6 +15,7 @@ bool Roleplay::speak(std::string_view content, const Roleplay::MessageCallback& 
     // is safe?
     if(!m_.try_lock()) {
         // is working now
+        printf("working now\n");
         return false;
     } else {
         m_.unlock();
@@ -80,6 +81,6 @@ bool Roleplay::setCharacterInfo(std::string_view new_set)
 {
     // TODO: Update cache
     // TODO: Forbidden to call when speaking
-    characterInfo_ = new_set;
+    character_info_ = new_set;
     return true;
 }
