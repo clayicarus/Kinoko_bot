@@ -1,5 +1,5 @@
 project(kinoko)
-cmake_minimum_required(VERSION 3.24)
+cmake_minimum_required(VERSION 3.22)
 
 set(CMAKE_CXX_STANDARD 17)
 
@@ -32,7 +32,7 @@ set(SOURCE_LIST
         base/HttpParser.cpp
         base/base64.cpp
         base/sha1_portable.cpp
-        )
+        MessageEvent.h MessageEvent.cpp MessageChain.cpp)
 
 add_executable(${PROJECT_NAME} main.cpp ${SOURCE_LIST})
 target_link_libraries(${PROJECT_NAME} PRIVATE ${UNOFFICIAL_LINK_LIST})
